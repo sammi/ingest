@@ -16,3 +16,9 @@ cd build
 cmake ..
 make
 `
+
+## Start up ingest server
+`
+cd build
+./ingest
+`

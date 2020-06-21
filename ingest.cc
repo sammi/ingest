@@ -1,34 +1,42 @@
 #include <iostream>
-#include <vector>
-#include <list>
+#include <memory>
 #include <string>
 
-using namespace std;
+#include <grpcpp/grpcpp.h>
 
-template<typename C, typename P> //requires Sequence<C> && Callable<P, value_type<P>>
-int count(const C& c, P pred)
-{
-	int cnt = 0;
-	for(const auto& x: c)
-		if(pred(x))
-			++cnt;
-	return cnt;
+#include "contract.grpc.pb.h"
+
+using grpc::Server;
+using grpc::ServerBuilder;
+using grpc::ServerContext;
+using grpc::Status;
+using contract::HelloRequest;
+using contract::HelloReply;
+using contract::Greeter;
+
+class GreeterServiceImpl final : public Greeter::Service {
+    Status SayHello(ServerContext* context, const HelloRequest* request, HelloReply* reply) override {
+        std::string prefix("Hi ");
+        reply->set_message(prefix + request->name());
+        return Status::OK;
+    }
+};
+
+void RunServer() {
+    std::string server_address("0.0.0.0:50051");
+    GreeterServiceImpl service;
+
+    ServerBuilder builder;
+    builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+    builder.RegisterService(&service);
+    std::unique_ptr<Server> server(builder.BuildAndStart());
+    std::cout << "Server listening on " << server_address << std::endl;
+
+    server->Wait();
 }
 
+int main(int argc, char** argv) {
+    RunServer();
 
-void f(const vector<int>& vec, const list<string>& lst, int x, const string& s)
-{
-	cout << "number of values less than " << x
-	<< ": " << count(vec, [&](int a) { return a < x; })
-	<< '\n';
-
-	cout << "number of values less than " << s
-	<< ": " << count(lst, [&](const string& a) { return a < s; })
-	<< '\n';
-}
-
-int main() {
-
-	f(vector{1,2,200}, list<string>{"a"s, "b"s}, 10, "b"s);
-
+    return 0;
 }
