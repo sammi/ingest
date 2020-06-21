@@ -10,7 +10,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
-
 list(APPEND CMAKE_PREFIX_PATH "/opt/grpc" "/opt/protobuf")
 find_package(Protobuf REQUIRED)
 find_package(gRPC REQUIRED)
@@ -36,3 +35,5 @@ target_link_libraries(ingest
     gRPC::grpc++_reflection
     protobuf::libprotobuf
 )
+
+install(TARGETS ingest DESTINATION bin)
