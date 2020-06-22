@@ -24,3 +24,10 @@ sudo make install
 export LD_LIBRARY_PATH=/opt/grpc/lib
 ingest
 ```
+
+## Run test application
+```
+cd src/test/go
+docker build . -t test
+docker run --rm test
+```
