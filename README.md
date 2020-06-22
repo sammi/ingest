@@ -8,9 +8,10 @@ Accept client gRPC request and save data into rocksdb.
 * gcc 7.5.0+
 * cmake 3.17.0+
 
-## Build and install 
+## Build and install ingest server
 
 ```
+cd src/main/cpp
 mkdir build
 cd build
 cmake ..
@@ -18,7 +19,7 @@ make
 sudo make install
 ```
 
-## Start up ingest server
+## Start ingest server
 ```
 export LD_LIBRARY_PATH=/opt/grpc/lib
 ingest
