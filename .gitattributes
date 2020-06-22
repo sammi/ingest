@@ -4,3 +4,4 @@
 *.cc text
 *.h text
 *.md text
+*.json text
