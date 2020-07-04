@@ -7,6 +7,14 @@ Accept client gRPC request and save data into rocksdb.
 * Ubuntu18.04
 * gcc 7.5.0+
 * cmake 3.17.0+
+* docker with buildkit support
+```
+{
+  "features": {
+    "buildkit": true
+  }
+}
+```
 
 ## Build and install ingest server
 
