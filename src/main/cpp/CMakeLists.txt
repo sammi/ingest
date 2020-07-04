@@ -15,7 +15,7 @@ find_package(Protobuf REQUIRED)
 find_package(gRPC REQUIRED)
 
 
-set(PROTOS ${CMAKE_CURRENT_SOURCE_DIR}/../../../protos/contract.proto)
+set(PROTOS ${CMAKE_CURRENT_SOURCE_DIR}/protos/contract.proto)
 set(PROTO_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/protos-src)
 
 file(MAKE_DIRECTORY ${PROTO_SRC_DIR})

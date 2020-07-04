@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <cstdlib>
 
 #include <grpcpp/grpcpp.h>
 
@@ -22,8 +23,10 @@ class GreeterServiceImpl final : public Greeter::Service {
     }
 };
 
-void RunServer() {
-    std::string server_address("0.0.0.0:50051");
+void RunServer(std::string port) {
+
+    std::string server_address("0.0.0.0:" + port);
+
     GreeterServiceImpl service;
 
     ServerBuilder builder;
@@ -36,7 +39,13 @@ void RunServer() {
 }
 
 int main(int argc, char** argv) {
-    RunServer();
+    if (argc > 1) {
+        std::string port(argv[1]);
+        RunServer(port);
+        return 0;
+    } else {
+        std::cout << "usage: ingest <port_number> \n, e.g:  ingest 50051\n";
+        return 1;
+    }
 
-    return 0;
 }
