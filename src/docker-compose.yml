@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+
+  server:
+    build: main/cpp
+    container_name: ingest_server
+    environment:
+      - GRPC_SERVER_PORT=50051
+    ports:
+      - "50051:50051"
+    networks:
+      - ingest
+
+  client:
+    build: test/go
+    container_name: ingest_golang_client
+    environment:
+      - GRPC_SERVER_HOST=ingest_server
+      - GRPC_SERVER_PORT=50051
+      - WHO_AM_I=golang
+    command: ["/app", "ingest_server", "50051", "golang client"]
+
+    networks:
+      - ingest
+    depends_on:
+      - server
+
+networks:
+  ingest:

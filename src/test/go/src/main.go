@@ -11,15 +11,27 @@ import (
 )
 
 const (
-	address     = "172.25.7.73:50051"
 	defaultName = "world"
 )
 
 func main() {
 
+	if len(os.Args) <= 3 {
+		log.Printf("Not valid command, usage: /app 127.0.0.1 50051 hi")
+		return
+	}
+
 	log.Printf("Started")
 
-	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	host := os.Args[1]
+	port := os.Args[2]
+	name := os.Args[3]
+
+	log.Printf("host %s", host)
+	log.Printf("port %s", port)
+	log.Printf("name %s", name)
+
+	conn, err := grpc.Dial(host+":"+port, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
@@ -28,11 +40,6 @@ func main() {
 	c := pb.NewGreeterClient(conn)
 
 	log.Printf("Connected")
-
-	name := defaultName
-	if len(os.Args) > 1 {
-		name = os.Args[1]
-	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()

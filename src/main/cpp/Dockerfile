@@ -5,7 +5,7 @@ ENV CMAKE_ARCHITECTURE x86_64
 ENV CMAKE_RELEASE_VERSION 3.17.3
 ENV CMAKE_INSTALL_PREFIX /usr/local
 
-RUN apt-get update && apt install -y wget
+RUN apt-get update && apt-get install -y wget
 
 RUN wget -q -O cmake-linux.sh \
     https://github.com/Kitware/CMake/releases/download/v${CMAKE_RELEASE_VERSION}/cmake-${CMAKE_RELEASE_VERSION}-${CMAKE_OS}-${CMAKE_ARCHITECTURE}.sh \
